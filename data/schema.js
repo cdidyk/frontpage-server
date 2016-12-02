@@ -19,7 +19,7 @@ type Post {
 
 # the schema allows the following query:
 type Query {
-  posts: [Post]
+  posts(title: String): [Post]
 }
 
 # this schema allows the following mutation:

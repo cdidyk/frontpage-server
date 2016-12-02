@@ -1,4 +1,4 @@
-import { find, filter } from 'lodash';
+import { find, filter, isNil } from 'lodash';
 import { pubsub } from './subscriptions';
 
 const authors = [
@@ -14,8 +14,13 @@ const posts = [
 
 const resolveFunctions = {
   Query: {
-    posts() {
-      return posts;
+    posts(root, { title }) {
+      if (isNil(title)) {
+        return posts;
+      } else {
+        const matcher = new RegExp(`${title}`, 'i');
+        return filter(posts, (p) => matcher.test(p.title));
+      }
     },
   },
   Mutation: {
